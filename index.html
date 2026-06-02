@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galería de Arte Clásico</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -16,16 +16,26 @@
             <a href="#contacto">Contacto</a>
         </nav>
     </header>
+
     <main>
-        <section class="hero">
-            <h1>Historia del Arte</h1>
-            <p>Las obras maestras que definieron la humanidad</p>
-            <a href="#obras" class="btn">Explorar</a>
+        <!-- Hero con partículas -->
+        <section class="hero" id="hero">
+            <canvas id="particlesCanvas"></canvas>
+            <div class="hero-content">
+                <h1>Historia del Arte</h1>
+                <p>Las obras maestras que definieron la humanidad</p>
+                <a href="#obras" class="btn" id="exploreBtn">Explorar</a>
+            </div>
+            <div class="hero-overlay"></div>
         </section>
+
+        <!-- Galería de obras -->
         <section id="obras" class="gallery">
             <h2>Obras Maestras</h2>
             <div class="grid" id="grid"></div>
         </section>
+
+        <!-- Modal -->
         <section class="modal" id="modal">
             <div class="modal-content">
                 <span class="close" id="close">&times;</span>
@@ -43,9 +53,11 @@
             </div>
         </section>
     </main>
+
     <footer>
         <p>&copy; 2025 Galería de Arte Clásico</p>
     </footer>
+
     <script src="data.js"></script>
     <script src="script.js"></script>
 </body>
