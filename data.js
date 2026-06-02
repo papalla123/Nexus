@@ -1,5 +1,6 @@
-// ============= data.js =============
+// ============= data.js (actualizado con +5 dibujos) =============
 const drawings = [
+  // ===== DIBUJOS ORIGINALES (6) =====
   {
     id: 'sol',
     title: 'Sol radiante',
@@ -7,8 +8,6 @@ const drawings = [
     difficulty: 1,
     icon: '☀️',
     steps: [
-      // Cada paso es un objeto con text y una función draw que recibe ctx, w, h y un array 'history' con los comandos previos
-      // Para mantener coherencia, usamos un enfoque basado en comandos: cada paso dibuja sobre el canvas sin limpiar (acumulativo)
       { text: 'Dibuja un <strong>círculo de 5 cm</strong> en el centro del papel.', draw: (ctx, w, h) => {
           const cx = w/2, cy = h/2, r = Math.min(w,h)*0.2;
           ctx.strokeStyle = '#f7971e';
@@ -77,7 +76,6 @@ const drawings = [
           }
       }}
     ],
-    // Función para dibujar el resultado final (todos los pasos acumulados)
     drawFinal: function(ctx, w, h) {
       this.steps.forEach(step => step.draw(ctx, w, h));
     }
@@ -116,10 +114,6 @@ const drawings = [
           ctx.stroke();
       }},
       { text: 'Borra las líneas <strong>ocultas</strong> (parte trasera visible).', draw: (ctx, w, h) => {
-          // En este enfoque no borramos, simplemente no dibujamos las líneas ocultas
-          // Ya están dibujadas, pero para mantener coherencia visual, este paso no añade nada nuevo
-          // Solo indicamos que se deben borrar mentalmente
-          // En su lugar, podemos dibujar las líneas de la parte frontal más gruesas
           const s = Math.min(w,h)*0.3;
           const cx = w/2, cy = h/2;
           ctx.strokeStyle = '#ffffff';
@@ -167,7 +161,6 @@ const drawings = [
           const x1 = cx, y1 = cy - size*0.6;
           const x2 = cx - size*0.5, y2 = cy + size*0.4;
           const x3 = cx + size*0.5, y3 = cy + size*0.4;
-          // Puntos a 1/3 de cada lado
           const pts = [
             [(x1*2 + x2)/3, (y1*2 + y2)/3],
             [(x2*2 + x3)/3, (y2*2 + y3)/3],
@@ -203,21 +196,18 @@ const drawings = [
           const cx = w/2, cy = h/2+5;
           ctx.strokeStyle = '#f7971e';
           ctx.lineWidth = 2;
-          // Barra inferior
           ctx.beginPath();
           ctx.moveTo(cx - size*0.5, cy + size*0.4);
           ctx.lineTo(cx + size*0.5, cy + size*0.4);
           ctx.lineTo(cx + size*0.5 - 15, cy + size*0.4 - 20);
           ctx.lineTo(cx - size*0.5 + 15, cy + size*0.4 - 20);
           ctx.closePath(); ctx.stroke();
-          // Barra izquierda
           ctx.beginPath();
           ctx.moveTo(cx - size*0.5, cy + size*0.4);
           ctx.lineTo(cx, cy - size*0.6);
           ctx.lineTo(cx + 15, cy - size*0.6 + 10);
           ctx.lineTo(cx - size*0.5 + 20, cy + size*0.4 - 15);
           ctx.closePath(); ctx.stroke();
-          // Barra derecha
           ctx.beginPath();
           ctx.moveTo(cx + size*0.5, cy + size*0.4);
           ctx.lineTo(cx, cy - size*0.6);
@@ -296,7 +286,6 @@ const drawings = [
           const cx = w/2, cy = h/2-10;
           ctx.strokeStyle = '#27ae60';
           ctx.lineWidth = 2;
-          // Hoja izquierda
           ctx.beginPath();
           ctx.ellipse(cx-25, cy+50, 18, 8, -0.3, 0, Math.PI*2);
           ctx.stroke();
@@ -304,7 +293,6 @@ const drawings = [
           ctx.moveTo(cx-20, cy+45);
           ctx.lineTo(cx-35, cy+55);
           ctx.stroke();
-          // Hoja derecha
           ctx.beginPath();
           ctx.ellipse(cx+25, cy+70, 18, 8, 0.3, 0, Math.PI*2);
           ctx.stroke();
@@ -481,6 +469,447 @@ const drawings = [
             ctx.fill();
             ctx.stroke();
           }
+      }}
+    ],
+    drawFinal: function(ctx, w, h) {
+      this.steps.forEach(step => step.draw(ctx, w, h));
+    }
+  },
+
+  // ===== NUEVOS 5 DIBUJOS =====
+  {
+    id: 'paisaje',
+    title: 'Paisaje de montaña',
+    category: 'simple',
+    difficulty: 2,
+    icon: '🏔️',
+    steps: [
+      { text: 'Dibuja una <strong>línea horizontal</strong> a 4 cm del borde inferior (suelo).', draw: (ctx, w, h) => {
+          ctx.strokeStyle = '#27ae60';
+          ctx.lineWidth = 2;
+          const y = h - 60;
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(w, y);
+          ctx.stroke();
+      }},
+      { text: 'Añade <strong>2 montañas</strong> triangulares: una de 6 cm y otra de 8 cm de altura.', draw: (ctx, w, h) => {
+          ctx.strokeStyle = '#34495e';
+          ctx.lineWidth = 2;
+          const baseY = h - 60;
+          // Montaña izquierda (más pequeña)
+          ctx.beginPath();
+          ctx.moveTo(50, baseY);
+          ctx.lineTo(150, 40);
+          ctx.lineTo(250, baseY);
+          ctx.closePath();
+          ctx.stroke();
+          // Montaña derecha (más alta)
+          ctx.beginPath();
+          ctx.moveTo(180, baseY);
+          ctx.lineTo(320, 20);
+          ctx.lineTo(460, baseY);
+          ctx.closePath();
+          ctx.stroke();
+      }},
+      { text: 'Dibuja un <strong>río</strong> serpenteante que vaya desde el horizonte hasta el primer plano.', draw: (ctx, w, h) => {
+          ctx.strokeStyle = '#3498db';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.moveTo(300, 100);
+          ctx.quadraticCurveTo(250, 200, 350, 300);
+          ctx.quadraticCurveTo(280, 360, 400, h-60);
+          ctx.stroke();
+      }},
+      { text: 'Añade <strong>árboles</strong> con triángulos de 2 cm sobre el suelo (pinos).', draw: (ctx, w, h) => {
+          ctx.fillStyle = '#2ecc71';
+          ctx.strokeStyle = '#27ae60';
+          ctx.lineWidth = 2;
+          const baseY = h - 60;
+          // Árbol 1
+          ctx.beginPath();
+          ctx.moveTo(80, baseY);
+          ctx.lineTo(90, baseY-40);
+          ctx.lineTo(100, baseY);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          // Árbol 2
+          ctx.beginPath();
+          ctx.moveTo(400, baseY);
+          ctx.lineTo(410, baseY-50);
+          ctx.lineTo(420, baseY);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          // Árbol 3
+          ctx.beginPath();
+          ctx.moveTo(500, baseY);
+          ctx.lineTo(510, baseY-35);
+          ctx.lineTo(520, baseY);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+      }},
+      { text: 'Agrega <strong>nubes</strong> con círculos ovalados y un sol de 3 cm en la esquina.', draw: (ctx, w, h) => {
+          ctx.fillStyle = '#ecf0f1';
+          ctx.beginPath();
+          ctx.ellipse(120, 60, 30, 15, 0, 0, Math.PI*2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.ellipse(150, 50, 25, 12, 0.2, 0, Math.PI*2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.ellipse(90, 50, 20, 10, -0.1, 0, Math.PI*2);
+          ctx.fill();
+          // Sol
+          ctx.fillStyle = '#f1c40f';
+          ctx.beginPath();
+          ctx.arc(w-60, 50, 25, 0, Math.PI*2);
+          ctx.fill();
+      }}
+    ],
+    drawFinal: function(ctx, w, h) {
+      this.steps.forEach(step => step.draw(ctx, w, h));
+    }
+  },
+  {
+    id: 'hexagono',
+    title: 'Hexágono 3D',
+    category: 'geometrico',
+    difficulty: 3,
+    icon: '⬡',
+    steps: [
+      { text: 'Dibuja un <strong>hexágono regular</strong> de 4 cm de lado (6 lados iguales).', draw: (ctx, w, h) => {
+          const cx = w/2, cy = h/2, r = 50;
+          ctx.strokeStyle = '#8e44ad';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          for (let i=0; i<6; i++) {
+            const angle = i * Math.PI/3 - Math.PI/6;
+            const x = cx + r*Math.cos(angle);
+            const y = cy + r*Math.sin(angle);
+            if (i===0) ctx.moveTo(x,y);
+            else ctx.lineTo(x,y);
+          }
+          ctx.closePath();
+          ctx.stroke();
+      }},
+      { text: 'Dibuja el <strong>hexágono trasero</strong> desplazado 1.5 cm hacia arriba y derecha.', draw: (ctx, w, h) => {
+          const cx = w/2+15, cy = h/2-15, r = 50;
+          ctx.strokeStyle = '#8e44ad';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          for (let i=0; i<6; i++) {
+            const angle = i * Math.PI/3 - Math.PI/6;
+            const x = cx + r*Math.cos(angle);
+            const y = cy + r*Math.sin(angle);
+            if (i===0) ctx.moveTo(x,y);
+            else ctx.lineTo(x,y);
+          }
+          ctx.closePath();
+          ctx.stroke();
+      }},
+      { text: 'Conecta los <strong>vértices correspondientes</strong> de ambos hexágonos con líneas rectas.', draw: (ctx, w, h) => {
+          const cx1 = w/2, cy1 = h/2;
+          const cx2 = w/2+15, cy2 = h/2-15;
+          const r = 50;
+          ctx.strokeStyle = '#8e44ad';
+          ctx.lineWidth = 2;
+          for (let i=0; i<6; i++) {
+            const angle = i * Math.PI/3 - Math.PI/6;
+            const x1 = cx1 + r*Math.cos(angle), y1 = cy1 + r*Math.sin(angle);
+            const x2 = cx2 + r*Math.cos(angle), y2 = cy2 + r*Math.sin(angle);
+            ctx.beginPath();
+            ctx.moveTo(x1,y1);
+            ctx.lineTo(x2,y2);
+            ctx.stroke();
+          }
+      }},
+      { text: 'Borra las líneas <strong>ocultas</strong> de la parte trasera (líneas que quedarían detrás).', draw: (ctx, w, h) => {
+          // En este paso no dibujamos nada nuevo, pero resaltamos las aristas frontales
+          const cx = w/2, cy = h/2, r = 50;
+          ctx.strokeStyle = '#8e44ad';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          for (let i=0; i<6; i++) {
+            const angle = i * Math.PI/3 - Math.PI/6;
+            const x = cx + r*Math.cos(angle);
+            const y = cy + r*Math.sin(angle);
+            if (i===0) ctx.moveTo(x,y);
+            else ctx.lineTo(x,y);
+          }
+          ctx.closePath();
+          ctx.stroke();
+      }},
+      { text: 'Sombrea las caras laterales con <strong>violeta claro</strong> para dar profundidad.', draw: (ctx, w, h) => {
+          ctx.fillStyle = '#8e44ad20';
+          // Sombrear dos caras laterales visibles (simulación)
+          ctx.beginPath();
+          ctx.moveTo(w/2-50, h/2);
+          ctx.lineTo(w/2-35, h/2-15);
+          ctx.lineTo(w/2+50, h/2-15);
+          ctx.lineTo(w/2+50, h/2);
+          ctx.closePath();
+          ctx.fill();
+          ctx.beginPath();
+          ctx.moveTo(w/2+50, h/2);
+          ctx.lineTo(w/2+65, h/2-15);
+          ctx.lineTo(w/2+65, h/2-65);
+          ctx.lineTo(w/2+50, h/2-50);
+          ctx.closePath();
+          ctx.fill();
+      }}
+    ],
+    drawFinal: function(ctx, w, h) {
+      this.steps.forEach(step => step.draw(ctx, w, h));
+    }
+  },
+  {
+    id: 'nazar',
+    title: 'Ojo turco (Nazar)',
+    category: 'ilusion',
+    difficulty: 3,
+    icon: '🧿',
+    steps: [
+      { text: 'Dibuja un <strong>círculo grande</strong> de 5 cm de radio para el contorno del ojo.', draw: (ctx, w, h) => {
+          const cx = w/2, cy = h/2, r = 60;
+          ctx.strokeStyle = '#2c3e50';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.arc(cx, cy, r, 0, Math.PI*2);
+          ctx.stroke();
+      }},
+      { text: 'Dentro, dibuja un <strong>círculo concéntrico</strong> de 3.5 cm de radio (iris).', draw: (ctx, w, h) => {
+          const cx = w/2, cy = h/2;
+          ctx.fillStyle = '#3498db';
+          ctx.beginPath();
+          ctx.arc(cx, cy, 42, 0, Math.PI*2);
+          ctx.fill();
+          ctx.strokeStyle = '#2980b9';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+      }},
+      { text: 'Añade un <strong>círculo más pequeño</strong> de 1.5 cm de radio (pupila) en el centro.', draw: (ctx, w, h) => {
+          const cx = w/2, cy = h/2;
+          ctx.fillStyle = '#1a1a2e';
+          ctx.beginPath();
+          ctx.arc(cx, cy, 18, 0, Math.PI*2);
+          ctx.fill();
+      }},
+      { text: 'Dibuja <strong>2 brillos</strong> blancos en la pupila (círculos de 0.3 cm) para dar vida.', draw: (ctx, w, h) => {
+          const cx = w/2, cy = h/2;
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(cx-8, cy-8, 6, 0, Math.PI*2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(cx+10, cy+5, 4, 0, Math.PI*2);
+          ctx.fill();
+      }},
+      { text: 'Decora con <strong>formas de media luna</strong> alrededor del iris (detalle turco).', draw: (ctx, w, h) => {
+          const cx = w/2, cy = h/2;
+          ctx.strokeStyle = '#2c3e50';
+          ctx.lineWidth = 2;
+          // Media luna superior
+          ctx.beginPath();
+          ctx.arc(cx, cy-42, 15, Math.PI*0.8, Math.PI*1.2);
+          ctx.stroke();
+          // Media luna inferior
+          ctx.beginPath();
+          ctx.arc(cx, cy+42, 15, Math.PI*1.8, Math.PI*2.2);
+          ctx.stroke();
+          // Puntos decorativos
+          ctx.fillStyle = '#f1c40f';
+          ctx.beginPath();
+          ctx.arc(cx-30, cy, 4, 0, Math.PI*2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(cx+30, cy, 4, 0, Math.PI*2);
+          ctx.fill();
+      }}
+    ],
+    drawFinal: function(ctx, w, h) {
+      this.steps.forEach(step => step.draw(ctx, w, h));
+    }
+  },
+  {
+    id: 'buho',
+    title: 'Búho realista',
+    category: 'intermedio',
+    difficulty: 4,
+    icon: '🦉',
+    steps: [
+      { text: 'Dibuja un <strong>óvalo de 6×4 cm</strong> para el cuerpo del búho.', draw: (ctx, w, h) => {
+          ctx.strokeStyle = '#6c5b7b';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.ellipse(w/2, h/2+10, 45, 30, 0, 0, Math.PI*2);
+          ctx.stroke();
+      }},
+      { text: 'Añade un <strong>círculo de 3.5 cm</strong> para la cabeza, ligeramente superpuesto al cuerpo.', draw: (ctx, w, h) => {
+          ctx.strokeStyle = '#6c5b7b';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(w/2, h/2-20, 28, 0, Math.PI*2);
+          ctx.stroke();
+      }},
+      { text: 'Dibuja dos <strong>círculos grandes</strong> para los ojos (2 cm de diámetro) y las pupilas.', draw: (ctx, w, h) => {
+          const cx = w/2, cy = h/2-25;
+          ctx.fillStyle = '#f1c40f';
+          ctx.beginPath();
+          ctx.arc(cx-14, cy, 12, 0, Math.PI*2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(cx+14, cy, 12, 0, Math.PI*2);
+          ctx.fill();
+          ctx.fillStyle = '#1a1a2e';
+          ctx.beginPath();
+          ctx.arc(cx-14, cy, 6, 0, Math.PI*2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(cx+14, cy, 6, 0, Math.PI*2);
+          ctx.fill();
+      }},
+      { text: 'Añade el <strong>pico</strong> triangular de 1.5 cm y las orejas puntiagudas (plumas).', draw: (ctx, w, h) => {
+          const cx = w/2, cy = h/2-20;
+          ctx.strokeStyle = '#e67e22';
+          ctx.lineWidth = 2;
+          ctx.fillStyle = '#e67e22';
+          ctx.beginPath();
+          ctx.moveTo(cx, cy+5);
+          ctx.lineTo(cx-6, cy+15);
+          ctx.lineTo(cx+6, cy+15);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          // Orejas
+          ctx.strokeStyle = '#6c5b7b';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(cx-20, cy-25);
+          ctx.lineTo(cx-30, cy-45);
+          ctx.lineTo(cx-15, cy-30);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(cx+20, cy-25);
+          ctx.lineTo(cx+30, cy-45);
+          ctx.lineTo(cx+15, cy-30);
+          ctx.stroke();
+      }},
+      { text: 'Dibuja las <strong>alas</strong> a los lados del cuerpo y detalles de plumas con líneas curvas.', draw: (ctx, w, h) => {
+          ctx.strokeStyle = '#6c5b7b';
+          ctx.lineWidth = 2;
+          // Ala izquierda
+          ctx.beginPath();
+          ctx.moveTo(w/2-40, h/2-5);
+          ctx.quadraticCurveTo(w/2-60, h/2+20, w/2-30, h/2+30);
+          ctx.stroke();
+          // Ala derecha
+          ctx.beginPath();
+          ctx.moveTo(w/2+40, h/2-5);
+          ctx.quadraticCurveTo(w/2+60, h/2+20, w/2+30, h/2+30);
+          ctx.stroke();
+          // Plumas en el pecho
+          for (let i=0; i<4; i++) {
+            ctx.beginPath();
+            ctx.moveTo(w/2-10+i*8, h/2+5);
+            ctx.quadraticCurveTo(w/2+i*8, h/2+15, w/2+10+i*8, h/2+5);
+            ctx.stroke();
+          }
+      }}
+    ],
+    drawFinal: function(ctx, w, h) {
+      this.steps.forEach(step => step.draw(ctx, w, h));
+    }
+  },
+  {
+    id: 'dragones',
+    title: 'Dragón chino',
+    category: 'avanzado',
+    difficulty: 5,
+    icon: '🐲',
+    steps: [
+      { text: 'Dibuja un <strong>cuerpo ondulado</strong> con una curva serpenteante de 10 cm de largo.', draw: (ctx, w, h) => {
+          ctx.strokeStyle = '#c0392b';
+          ctx.lineWidth = 5;
+          ctx.beginPath();
+          ctx.moveTo(60, h/2+20);
+          ctx.quadraticCurveTo(150, h/2-40, 250, h/2+10);
+          ctx.quadraticCurveTo(350, h/2-30, 450, h/2+20);
+          ctx.stroke();
+      }},
+      { text: 'Añade la <strong>cabeza</strong> con un círculo de 3 cm, hocico y cuernos de ciervo.', draw: (ctx, w, h) => {
+          const cx = 60, cy = h/2+20;
+          ctx.strokeStyle = '#c0392b';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(cx, cy-10, 22, 0, Math.PI*2);
+          ctx.stroke();
+          // Hocico
+          ctx.beginPath();
+          ctx.ellipse(cx-25, cy-5, 15, 10, 0.2, 0, Math.PI*2);
+          ctx.stroke();
+          // Cuernos
+          ctx.beginPath();
+          ctx.moveTo(cx-5, cy-30);
+          ctx.lineTo(cx-15, cy-55);
+          ctx.lineTo(cx, cy-45);
+          ctx.moveTo(cx+5, cy-30);
+          ctx.lineTo(cx+15, cy-55);
+          ctx.lineTo(cx, cy-45);
+          ctx.stroke();
+      }},
+      { text: 'Dibuja las <strong>garras</strong> con 4 dedos en cada pata (3 patas visibles).', draw: (ctx, w, h) => {
+          ctx.strokeStyle = '#c0392b';
+          ctx.lineWidth = 2;
+          // Garra delantera
+          ctx.beginPath();
+          ctx.moveTo(140, h/2-5);
+          ctx.lineTo(130, h/2+20);
+          ctx.lineTo(135, h/2+15);
+          ctx.moveTo(135, h/2+20);
+          ctx.lineTo(140, h/2+15);
+          ctx.stroke();
+          // Garra trasera
+          ctx.beginPath();
+          ctx.moveTo(340, h/2+5);
+          ctx.lineTo(330, h/2+25);
+          ctx.lineTo(335, h/2+20);
+          ctx.moveTo(335, h/2+25);
+          ctx.lineTo(340, h/2+20);
+          ctx.stroke();
+      }},
+      { text: 'Añade <strong>escamas</strong> con patrones de diamante a lo largo del cuerpo.', draw: (ctx, w, h) => {
+          ctx.fillStyle = '#c0392b40';
+          ctx.strokeStyle = '#c0392b';
+          ctx.lineWidth = 1;
+          const points = [[120, h/2-10],[200, h/2+5],[280, h/2-10],[360, h/2+5]];
+          points.forEach(([px,py]) => {
+            ctx.beginPath();
+            ctx.moveTo(px, py-8);
+            ctx.lineTo(px+6, py);
+            ctx.lineTo(px, py+8);
+            ctx.lineTo(px-6, py);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+          });
+      }},
+      { text: 'Decora con <strong>llamas</strong> alrededor de la cabeza y detalles dorados en las escamas.', draw: (ctx, w, h) => {
+          const cx = 60, cy = h/2+20;
+          ctx.fillStyle = '#f39c12';
+          // Llamas
+          ctx.beginPath();
+          ctx.moveTo(cx-35, cy-5);
+          ctx.quadraticCurveTo(cx-50, cy-20, cx-40, cy);
+          ctx.quadraticCurveTo(cx-55, cy+10, cx-35, cy+5);
+          ctx.fill();
+          ctx.fillStyle = '#e74c3c70';
+          ctx.beginPath();
+          ctx.moveTo(cx-30, cy);
+          ctx.quadraticCurveTo(cx-45, cy-12, cx-35, cy+2);
+          ctx.fill();
       }}
     ],
     drawFinal: function(ctx, w, h) {
