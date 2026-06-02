@@ -1,76 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galería de Arte Clásico – 20 Obras Maestras</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Historia del Arte — Galería</title>
+
+  <!-- Tipografías elegantes -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Archivo de estilos inyectado por JS -->
+  <script src="STYLE.JS" defer></script>
+
+  <!-- Datos de las obras -->
+  <script src="data.js" defer></script>
+
+  <!-- Lógica para renderizar -->
+  <script src="script.js" defer></script>
 </head>
 <body>
-    <header>
-        <div class="logo">🎨</div>
-        <nav>
-            <a href="#inicio" class="active">Inicio</a>
-            <a href="#obras">Obras</a>
-            <a href="#testimonios">Expertos</a>
-            <a href="#contacto">Contacto</a>
-        </nav>
-    </header>
+  <header class="site-header">
+    <div class="brand">
+      <h1>Historia del Arte</h1>
+      <p class="tagline">Una galería de 10 pinturas esenciales — descripciones, historia y la mirada del experto</p>
+    </div>
+    <nav class="top-nav">
+      <a href="#galeria">Galería</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
 
-    <main>
-        <!-- Hero -->
-        <section id="inicio" class="hero">
-            <div class="hero-content">
-                <h1>Historia del Arte</h1>
-                <p>Veinte obras que cambiaron la humanidad</p>
-                <a href="#obras" class="btn">Explorar</a>
-            </div>
-        </section>
+  <main>
+    <section id="hero" class="hero">
+      <div class="hero-inner">
+        <h2>Bienvenido a la colección</h2>
+        <p>Explora 10 pinturas que marcaron la historia del arte occidental y universal.</p>
+        <a class="btn" href="#galeria">Ver la galería</a>
+      </div>
+    </section>
 
-        <!-- Galería -->
-        <section id="obras" class="gallery">
-            <div class="container">
-                <h2>Obras Maestras</h2>
-                <p class="subtitle">Selección definitiva de la pintura universal</p>
-                <div class="grid" id="grid"></div>
-            </div>
-        </section>
+    <section id="galeria" class="gallery-section">
+      <h2 class="section-title">Galería seleccionada</h2>
+      <div id="gallery" class="gallery-grid" aria-live="polite">
+        <!-- Las tarjetas de obra se crearán dinámicamente desde script.js -->
+      </div>
+    </section>
 
-        <!-- Testimonios / Expertos -->
-        <section id="testimonios" class="experts">
-            <div class="container">
-                <h2>Opinión de los expertos</h2>
-                <div class="testimonial-grid" id="testimonialGrid"></div>
-            </div>
-        </section>
+    <section id="sobre" class="about">
+      <h2>Sobre este proyecto</h2>
+      <p>Proyecto demostrativo que agrupa fichas sintéticas y contextualizadas de obras maestras. No es una exposición oficial, sino una selección para fines educativos.</p>
+    </section>
 
-        <!-- Modal -->
-        <div class="modal" id="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <div class="modal-image" id="modalImage"></div>
-                <div class="modal-text">
-                    <h2 id="modalTitle"></h2>
-                    <p class="author" id="modalAuthor"></p>
-                    <p class="year" id="modalYear"></p>
-                    <div class="description" id="modalDescription"></div>
-                    <h3>Historia</h3>
-                    <div class="history" id="modalHistory"></div>
-                    <h3>Curiosidades</h3>
-                    <div class="curiosities" id="modalCuriosities"></div>
-                    <h3>Opinión de un experto</h3>
-                    <div class="expert" id="modalExpert"></div>
-                </div>
-            </div>
-        </div>
-    </main>
+    <section id="contacto" class="contact">
+      <h2>Contacto</h2>
+      <p>Para comentarios o correcciones, escribe a: historadelarte@example.com</p>
+    </section>
+  </main>
 
-    <footer>
-        <p>© 2025 Galería de Arte Clásico · Todas las imágenes son de dominio público</p>
-    </footer>
-
-    <script src="data.js"></script>
-    <script src="script.js"></script>
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> Historia del Arte — Inspirado en la estética de grandes museos</p>
+  </footer>
 </body>
 </html>
