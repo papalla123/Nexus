@@ -1,4 +1,4 @@
-// ============= script.js (actualizado con navegación de pasos) =============
+// ============= script.js =============
 // ---- Partículas de fondo ----
 const canvasParticles = document.createElement('canvas');
 document.getElementById('particles-canvas').appendChild(canvasParticles);
@@ -60,6 +60,8 @@ const modalTitle = document.getElementById('modalTitle');
 const modalCategory = document.getElementById('modalCategory');
 const modalDifficulty = document.getElementById('modalDifficulty');
 const modalIcon = document.getElementById('modalIcon');
+const finalCanvas = document.getElementById('finalCanvas');
+const ctxFinal = finalCanvas.getContext('2d');
 const stepCanvas = document.getElementById('stepCanvas');
 const ctxStep = stepCanvas.getContext('2d');
 const stepDescription = document.getElementById('stepDescription');
@@ -117,44 +119,57 @@ filters.forEach(btn => {
   });
 });
 
-// ---- Modal con navegación de pasos ----
+// ---- Modal ----
 function openModal(d) {
   currentDrawing = d;
   currentStepIndex = 0;
-  
+
   // Configurar cabecera
   modalTitle.textContent = d.title;
   modalCategory.textContent = d.category.charAt(0).toUpperCase() + d.category.slice(1);
   modalDifficulty.innerHTML = 'dificultad ' + difficultyHTML(d.difficulty);
   modalIcon.textContent = d.icon;
 
-  // Ajustar canvas
+  // Ajustar tamaño de canvases
+  finalCanvas.width = finalCanvas.clientWidth || 400;
+  finalCanvas.height = finalCanvas.clientHeight || 300;
   stepCanvas.width = stepCanvas.clientWidth || 400;
   stepCanvas.height = stepCanvas.clientHeight || 300;
-  
+
+  // Dibujar resultado final (todos los pasos acumulados)
+  ctxFinal.clearRect(0, 0, finalCanvas.width, finalCanvas.height);
+  if (d.drawFinal) {
+    d.drawFinal(ctxFinal, finalCanvas.width, finalCanvas.height);
+  }
+
   // Mostrar primer paso
-  showStep(0);
-  
+  showStep(0, true); // true = limpiar canvas de paso
+
   modalOverlay.classList.add('open');
 }
 
-function showStep(index) {
+function showStep(index, clearFirst = true) {
   if (!currentDrawing) return;
   const steps = currentDrawing.steps;
   if (index < 0 || index >= steps.length) return;
-  
+
   currentStepIndex = index;
   const step = steps[index];
-  
+
   // Actualizar descripción
   stepDescription.innerHTML = step.text;
-  
+
   // Actualizar contador
   stepCounter.textContent = `Paso ${index+1} / ${steps.length}`;
-  
-  // Dibujar en canvas
-  step.draw(ctxStep, stepCanvas.width, stepCanvas.height);
-  
+
+  // Dibujar paso actual en el canvas de paso
+  // Limpiamos y redibujamos todos los pasos desde el inicio hasta el actual (acumulativo)
+  if (clearFirst) ctxStep.clearRect(0, 0, stepCanvas.width, stepCanvas.height);
+  // Redibujamos desde el paso 0 hasta el actual
+  for (let i = 0; i <= index; i++) {
+    steps[i].draw(ctxStep, stepCanvas.width, stepCanvas.height);
+  }
+
   // Estado de botones
   prevBtn.disabled = (index === 0);
   nextBtn.disabled = (index === steps.length - 1);
@@ -179,10 +194,9 @@ modalClose.addEventListener('click', closeModal);
 modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal(); });
 
-// Botón "A dibujar" – cierra el modal
+// Botón "A dibujar"
 btnStart.addEventListener('click', () => {
   closeModal();
-  // Feedback visual en la tarjeta
   if (currentDrawing) {
     const card = document.querySelector(`.card[data-id="${currentDrawing.id}"]`);
     if (card) {

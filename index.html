@@ -1,17 +1,17 @@
-<!-- ============= index.html (actualizado) ============= -->
+<!-- ============= index.html ============= -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dibujo 3D · Guía paso a paso</title>
+  <title>Dibujo 3D · Guía perfecta</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div id="particles-canvas"></div>
   <main>
     <header>
-      <h1>✏️ Dibujo 3D <span>guía perfecta</span></h1>
+      <h1>✏️ Dibujo 3D <span>guía final</span></h1>
       <div class="filters" id="filters">
         <button class="active" data-filter="todas">🌐 Todas</button>
         <button data-filter="simple">✨ Simples</button>
@@ -25,7 +25,7 @@
     <section class="grid" id="grid"></section>
   </main>
 
-  <!-- Modal con navegación de pasos -->
+  <!-- Modal -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
@@ -40,9 +40,10 @@
         </div>
       </div>
 
-      <!-- Canvas para la guía visual del paso actual -->
+      <!-- Canvas para el resultado final (siempre visible) -->
       <div class="canvas-wrapper">
-        <canvas id="stepCanvas" width="400" height="300"></canvas>
+        <canvas id="finalCanvas" width="400" height="300"></canvas>
+        <div class="final-badge">🎯 Resultado final</div>
       </div>
 
       <!-- Navegador de pasos -->
@@ -55,6 +56,11 @@
       <div class="modal-body">
         <h3>📐 Instrucción del paso</h3>
         <div id="stepDescription" class="step-desc-box"></div>
+        <!-- Mini canvas para el paso actual (acumulativo) -->
+        <div class="step-canvas-wrapper">
+          <canvas id="stepCanvas" width="400" height="300"></canvas>
+          <div class="step-badge">👣 Paso actual</div>
+        </div>
       </div>
 
       <div class="modal-footer">
