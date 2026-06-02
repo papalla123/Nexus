@@ -1,64 +1,106 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Historia del Arte — Galería</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Museo Virtual de Historia del Arte — Una experiencia editorial de lujo." />
+  <title>L'Héritage · Museo Virtual de Arte</title>
 
-  <!-- Tipografías elegantes -->
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-
-  <!-- Archivo de estilos inyectado por JS -->
-  <script src="STYLE.JS" defer></script>
-
-  <!-- Datos de las obras -->
-  <script src="data.js" defer></script>
-
-  <!-- Lógica para renderizar -->
-  <script src="script.js" defer></script>
+  <!-- Preconexión y Tipografías de Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
 </head>
 <body>
-  <header class="site-header">
-    <div class="brand">
-      <h1>Historia del Arte</h1>
-      <p class="tagline">Una galería de 10 pinturas esenciales — descripciones, historia y la mirada del experto</p>
+  <!-- ===================== HEADER / NAV ===================== -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <a href="#" class="brand">
+        <span class="brand-mark">L'</span>Héritage
+      </a>
+      <nav class="nav-search">
+        <div class="search-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"
+              fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" />
+          </svg>
+          <input
+            type="search"
+            id="searchInput"
+            class="search-input"
+            placeholder="Buscar por obra o artista…"
+            aria-label="Buscar obras de arte"
+            autocomplete="off"
+          />
+        </div>
+      </nav>
     </div>
-    <nav class="top-nav">
-      <a href="#galeria">Galería</a>
-      <a href="#sobre">Sobre</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
   </header>
 
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Colección Permanente · Edición Digital</p>
+      <h1 class="hero-title">El Arte que<br />Forjó la Historia</h1>
+      <p class="hero-subtitle">
+        Un recorrido íntimo y editorial por las obras maestras que
+        definieron la sensibilidad estética de la humanidad. Cada lienzo,
+        una conversación silenciosa entre los siglos.
+      </p>
+      <a href="#gallery" class="hero-cta">Explorar la Galería</a>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <span></span>
+    </div>
+  </section>
+
+  <!-- ===================== GALLERY ===================== -->
   <main>
-    <section id="hero" class="hero">
-      <div class="hero-inner">
-        <h2>Bienvenido a la colección</h2>
-        <p>Explora 10 pinturas que marcaron la historia del arte occidental y universal.</p>
-        <a class="btn" href="#galeria">Ver la galería</a>
+    <section class="gallery-section" id="gallery">
+      <div class="section-heading">
+        <span class="section-line"></span>
+        <h2 class="section-title">Obras Maestras</h2>
+        <span class="section-line"></span>
       </div>
-    </section>
 
-    <section id="galeria" class="gallery-section">
-      <h2 class="section-title">Galería seleccionada</h2>
-      <div id="gallery" class="gallery-grid" aria-live="polite">
-        <!-- Las tarjetas de obra se crearán dinámicamente desde script.js -->
+      <div class="gallery-container" id="galleryContainer">
+        <!-- Las cartas se inyectan dinámicamente desde script.js -->
       </div>
-    </section>
 
-    <section id="sobre" class="about">
-      <h2>Sobre este proyecto</h2>
-      <p>Proyecto demostrativo que agrupa fichas sintéticas y contextualizadas de obras maestras. No es una exposición oficial, sino una selección para fines educativos.</p>
-    </section>
-
-    <section id="contacto" class="contact">
-      <h2>Contacto</h2>
-      <p>Para comentarios o correcciones, escribe a: historadelarte@example.com</p>
+      <p class="no-results" id="noResults" hidden>
+        No se encontraron obras que coincidan con tu búsqueda.
+      </p>
     </section>
   </main>
 
+  <!-- ===================== MODAL ===================== -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-dialog" role="document">
+      <button class="modal-close" id="modalClose" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor"
+            stroke-width="1.5" stroke-linecap="round" />
+        </svg>
+      </button>
+      <div class="modal-content" id="modalContent">
+        <!-- Contenido editorial inyectado dinámicamente -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== FOOTER ===================== -->
   <footer class="site-footer">
-    <p>&copy; <span id="year"></span> Historia del Arte — Inspirado en la estética de grandes museos</p>
+    <p class="footer-brand"><span class="brand-mark">L'</span>Héritage</p>
+    <p class="footer-text">Museo Virtual de Historia del Arte · © 2025</p>
   </footer>
+
+  <!-- Punto de entrada de la aplicación (ES Modules) -->
+  <script type="module" src="script.js"></script>
 </body>
 </html>
