@@ -1,17 +1,17 @@
-<!-- ============= index.html ============= -->
+<!-- ============= index.html (actualizado) ============= -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dibujo 3D · Guía viva</title>
+  <title>Dibujo 3D · Guía paso a paso</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div id="particles-canvas"></div>
   <main>
     <header>
-      <h1>✏️ dibujo 3D <span>guía viva</span></h1>
+      <h1>✏️ Dibujo 3D <span>guía perfecta</span></h1>
       <div class="filters" id="filters">
         <button class="active" data-filter="todas">🌐 Todas</button>
         <button data-filter="simple">✨ Simples</button>
@@ -25,7 +25,7 @@
     <section class="grid" id="grid"></section>
   </main>
 
-  <!-- Modal -->
+  <!-- Modal con navegación de pasos -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
@@ -39,13 +39,26 @@
           </div>
         </div>
       </div>
-      <div class="modal-body">
-        <h3>📐 pasos precisos</h3>
-        <ol class="step-list" id="stepList"></ol>
+
+      <!-- Canvas para la guía visual del paso actual -->
+      <div class="canvas-wrapper">
+        <canvas id="stepCanvas" width="400" height="300"></canvas>
       </div>
+
+      <!-- Navegador de pasos -->
+      <div class="step-navigator">
+        <button id="prevStep" class="nav-btn">◀ Anterior</button>
+        <span id="stepCounter">Paso 1 / 5</span>
+        <button id="nextStep" class="nav-btn">Siguiente ▶</button>
+      </div>
+
+      <div class="modal-body">
+        <h3>📐 Instrucción del paso</h3>
+        <div id="stepDescription" class="step-desc-box"></div>
+      </div>
+
       <div class="modal-footer">
         <button class="btn-start" id="btnStart">🚀 A dibujar</button>
-        <canvas id="refCanvas" width="300" height="200"></canvas>
       </div>
     </div>
   </div>

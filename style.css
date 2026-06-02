@@ -1,4 +1,4 @@
-/* ============= style.css ============= */
+/* ============= style.css (actualizado) ============= */
 * {
   margin: 0;
   padding: 0;
@@ -14,7 +14,6 @@ body {
   perspective: 1200px;
 }
 
-/* ---- Fondo animado con partículas ---- */
 #particles-canvas {
   position: fixed;
   top: 0;
@@ -64,7 +63,6 @@ header h1 span {
   font-size: 1.4rem;
 }
 
-/* ---- Filtros ---- */
 .filters {
   display: flex;
   flex-wrap: wrap;
@@ -100,14 +98,12 @@ header h1 span {
   box-shadow: 0 8px 28px rgba(247, 151, 30, 0.25);
 }
 
-/* ---- Grid 3D ---- */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 24px;
 }
 
-/* ---- Tarjetas con efecto 3D ---- */
 .card {
   background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(6px);
@@ -215,7 +211,7 @@ header h1 span {
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 32px;
-  max-width: 680px;
+  max-width: 700px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
@@ -254,7 +250,7 @@ header h1 span {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.8rem;
   padding-right: 40px;
 }
 
@@ -280,11 +276,88 @@ header h1 span {
   margin-top: 4px;
 }
 
+/* Canvas wrapper */
+.canvas-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0 0.8rem;
+}
+
+#stepCanvas {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  aspect-ratio: 4/3;
+  border-radius: 20px;
+  background: #0f0f1a;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+  transition: box-shadow 0.3s;
+}
+
+#stepCanvas:hover {
+  box-shadow: 0 10px 40px rgba(247, 151, 30, 0.1);
+}
+
+/* Navegador de pasos */
+.step-navigator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  margin: 0.8rem 0 1rem;
+}
+
+.nav-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #c0c0e0;
+  padding: 0.5rem 1.2rem;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.nav-btn:hover {
+  background: rgba(247, 151, 30, 0.15);
+  border-color: #f7971e80;
+  transform: translateY(-2px);
+}
+
+.nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}
+
+#stepCounter {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #b0b0d0;
+  min-width: 100px;
+  text-align: center;
+}
+
+/* Descripción del paso */
+.step-desc-box {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  border-left: 3px solid #f7971e;
+  color: #d0d0e8;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  min-height: 3.5rem;
+}
+
 .modal-body h3 {
   font-size: 1rem;
   font-weight: 600;
   color: #f7971e;
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -292,54 +365,10 @@ header h1 span {
   padding-left: 12px;
 }
 
-.step-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.step-list li {
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 14px;
-  padding: 12px 14px 12px 48px;
-  position: relative;
-  border-left: 3px solid rgba(247, 151, 30, 0.2);
-  transition: all 0.2s;
-  color: #d0d0e8;
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-.step-list li:hover {
-  border-left-color: #f7971e;
-  background: rgba(247, 151, 30, 0.06);
-}
-
-.step-list li .step-num {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 28px;
-  height: 28px;
-  background: linear-gradient(135deg, #f7971e, #ffd200);
-  color: #0a0a12;
-  font-weight: 800;
-  font-size: 0.8rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 16px rgba(247, 151, 30, 0.2);
-}
-
 .modal-footer {
-  margin-top: 1.8rem;
+  margin-top: 1.5rem;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
+  justify-content: center;
 }
 
 .btn-start {
@@ -364,22 +393,6 @@ header h1 span {
   box-shadow: 0 14px 40px rgba(247, 151, 30, 0.35);
 }
 
-#refCanvas {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  aspect-ratio: 3 / 2;
-  border-radius: 20px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s;
-}
-
-#refCanvas:hover {
-  box-shadow: 0 10px 40px rgba(247, 151, 30, 0.1);
-}
-
 /* ---- Responsive ---- */
 @media (max-width: 768px) {
   header h1 { font-size: 1.6rem; }
@@ -390,6 +403,8 @@ header h1 span {
   .modal { padding: 1.5rem; }
   .modal-header .info h2 { font-size: 1.3rem; }
   .btn-start { padding: 10px 24px; font-size: 0.9rem; }
+  .step-navigator { gap: 0.8rem; }
+  .nav-btn { padding: 0.4rem 0.8rem; font-size: 0.75rem; }
 }
 
 @media (max-width: 480px) {

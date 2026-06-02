@@ -1,5 +1,5 @@
-// ============= script.js =============
-// ---- Partículas de fondo (animación 3D ligera) ----
+// ============= script.js (actualizado con navegación de pasos) =============
+// ---- Partículas de fondo ----
 const canvasParticles = document.createElement('canvas');
 document.getElementById('particles-canvas').appendChild(canvasParticles);
 const ctxp = canvasParticles.getContext('2d');
@@ -60,12 +60,17 @@ const modalTitle = document.getElementById('modalTitle');
 const modalCategory = document.getElementById('modalCategory');
 const modalDifficulty = document.getElementById('modalDifficulty');
 const modalIcon = document.getElementById('modalIcon');
-const stepList = document.getElementById('stepList');
+const stepCanvas = document.getElementById('stepCanvas');
+const ctxStep = stepCanvas.getContext('2d');
+const stepDescription = document.getElementById('stepDescription');
+const stepCounter = document.getElementById('stepCounter');
+const prevBtn = document.getElementById('prevStep');
+const nextBtn = document.getElementById('nextStep');
 const btnStart = document.getElementById('btnStart');
-const refCanvas = document.getElementById('refCanvas');
-const ctxRef = refCanvas.getContext('2d');
 
 let currentFilter = 'todas';
+let currentDrawing = null;
+let currentStepIndex = 0;
 
 function difficultyHTML(level) {
   let html = '';
@@ -112,50 +117,81 @@ filters.forEach(btn => {
   });
 });
 
-// Modal
+// ---- Modal con navegación de pasos ----
 function openModal(d) {
+  currentDrawing = d;
+  currentStepIndex = 0;
+  
+  // Configurar cabecera
   modalTitle.textContent = d.title;
   modalCategory.textContent = d.category.charAt(0).toUpperCase() + d.category.slice(1);
   modalDifficulty.innerHTML = 'dificultad ' + difficultyHTML(d.difficulty);
   modalIcon.textContent = d.icon;
 
-  stepList.innerHTML = '';
-  d.steps.forEach((step, idx) => {
-    const li = document.createElement('li');
-    li.innerHTML = `<span class="step-num">${idx+1}</span><span class="step-desc">${step}</span>`;
-    stepList.appendChild(li);
-  });
+  // Ajustar canvas
+  stepCanvas.width = stepCanvas.clientWidth || 400;
+  stepCanvas.height = stepCanvas.clientHeight || 300;
+  
+  // Mostrar primer paso
+  showStep(0);
+  
+  modalOverlay.classList.add('open');
+}
 
-  // Dibujar referencia en canvas
-  refCanvas.width = refCanvas.clientWidth || 300;
-  refCanvas.height = refCanvas.clientHeight || 200;
-  if (d.drawReference) {
-    d.drawReference(ctxRef, refCanvas.width, refCanvas.height);
-  } else {
-    ctxRef.clearRect(0,0,refCanvas.width,refCanvas.height);
-    ctxRef.fillStyle = '#ffffff20';
-    ctxRef.fillRect(0,0,refCanvas.width,refCanvas.height);
-  }
+function showStep(index) {
+  if (!currentDrawing) return;
+  const steps = currentDrawing.steps;
+  if (index < 0 || index >= steps.length) return;
+  
+  currentStepIndex = index;
+  const step = steps[index];
+  
+  // Actualizar descripción
+  stepDescription.innerHTML = step.text;
+  
+  // Actualizar contador
+  stepCounter.textContent = `Paso ${index+1} / ${steps.length}`;
+  
+  // Dibujar en canvas
+  step.draw(ctxStep, stepCanvas.width, stepCanvas.height);
+  
+  // Estado de botones
+  prevBtn.disabled = (index === 0);
+  nextBtn.disabled = (index === steps.length - 1);
+}
 
-  btnStart.onclick = () => {
-    modalOverlay.classList.remove('open');
-    // feedback visual
-    const card = document.querySelector(`.card[data-id="${d.id}"]`);
+// Eventos de navegación
+prevBtn.addEventListener('click', () => {
+  if (currentStepIndex > 0) showStep(currentStepIndex - 1);
+});
+
+nextBtn.addEventListener('click', () => {
+  if (currentStepIndex < currentDrawing.steps.length - 1) showStep(currentStepIndex + 1);
+});
+
+// Cerrar modal
+function closeModal() {
+  modalOverlay.classList.remove('open');
+  currentDrawing = null;
+}
+
+modalClose.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal(); });
+
+// Botón "A dibujar" – cierra el modal
+btnStart.addEventListener('click', () => {
+  closeModal();
+  // Feedback visual en la tarjeta
+  if (currentDrawing) {
+    const card = document.querySelector(`.card[data-id="${currentDrawing.id}"]`);
     if (card) {
       card.style.transition = '0.2s';
       card.style.transform = 'scale(1.06)';
       setTimeout(() => card.style.transform = '', 300);
     }
-  };
-
-  modalOverlay.classList.add('open');
-}
-
-function closeModal() { modalOverlay.classList.remove('open'); }
-
-modalClose.addEventListener('click', closeModal);
-modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal(); });
+  }
+});
 
 // Inicio
 render('todas');
