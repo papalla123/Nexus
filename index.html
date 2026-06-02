@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Galería de Arte Clásico - Obras Maestras</title>
-    <link rel="stylesheet" href="style.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería de Arte Clásico – 20 Obras Maestras</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -14,74 +13,63 @@
         <nav>
             <a href="#inicio" class="active">Inicio</a>
             <a href="#obras">Obras</a>
-            <a href="#linea-tiempo">Línea del tiempo</a>
-            <a href="#testimonios">Testimonios</a>
+            <a href="#testimonios">Expertos</a>
             <a href="#contacto">Contacto</a>
         </nav>
-        <div class="menu-toggle">☰</div>
     </header>
+
     <main>
-        <!-- HERO -->
+        <!-- Hero -->
         <section id="inicio" class="hero">
-            <div class="particles" id="particles"></div>
             <div class="hero-content">
-                <h1 class="animate__animated animate__fadeInDown">Historia del Arte</h1>
-                <p class="animate__animated animate__fadeInUp">Las obras maestras que definieron la humanidad</p>
-                <a href="#obras" class="btn animate__animated animate__fadeInUp">Explorar</a>
+                <h1>Historia del Arte</h1>
+                <p>Veinte obras que cambiaron la humanidad</p>
+                <a href="#obras" class="btn">Explorar</a>
             </div>
         </section>
 
-        <!-- OBRAS -->
-        <section id="obras" class="gallery section">
+        <!-- Galería -->
+        <section id="obras" class="gallery">
             <div class="container">
                 <h2>Obras Maestras</h2>
-                <p class="section-subtitle">Doce pinturas que cambiaron el mundo</p>
+                <p class="subtitle">Selección definitiva de la pintura universal</p>
                 <div class="grid" id="grid"></div>
             </div>
         </section>
 
-        <!-- LÍNEA DEL TIEMPO -->
-        <section id="linea-tiempo" class="timeline section">
+        <!-- Testimonios / Expertos -->
+        <section id="testimonios" class="experts">
             <div class="container">
-                <h2>Línea del tiempo</h2>
-                <div class="timeline-container" id="timeline"></div>
+                <h2>Opinión de los expertos</h2>
+                <div class="testimonial-grid" id="testimonialGrid"></div>
             </div>
         </section>
 
-        <!-- TESTIMONIOS -->
-        <section id="testimonios" class="testimonials section">
-            <div class="container">
-                <h2>Lo que dicen los expertos</h2>
-                <div class="testimonial-grid" id="testimonials"></div>
-            </div>
-        </section>
-
-        <!-- MODAL -->
-        <section class="modal" id="modal">
+        <!-- Modal -->
+        <div class="modal" id="modal">
             <div class="modal-content">
-                <span class="close" id="close">&times;</span>
-                <div class="modal-body">
-                    <div class="modal-image" id="modalImage"></div>
-                    <div class="modal-text">
-                        <h2 id="modalTitle"></h2>
-                        <p class="author" id="modalAuthor"></p>
-                        <p class="year" id="modalYear"></p>
-                        <div class="description" id="modalDescription"></div>
-                        <p class="history-title">Historia</p>
-                        <div class="history" id="modalHistory"></div>
-                        <p class="history-title">Curiosidades</p>
-                        <div class="curiosities" id="modalCuriosities"></div>
-                    </div>
+                <span class="close">&times;</span>
+                <div class="modal-image" id="modalImage"></div>
+                <div class="modal-text">
+                    <h2 id="modalTitle"></h2>
+                    <p class="author" id="modalAuthor"></p>
+                    <p class="year" id="modalYear"></p>
+                    <div class="description" id="modalDescription"></div>
+                    <h3>Historia</h3>
+                    <div class="history" id="modalHistory"></div>
+                    <h3>Curiosidades</h3>
+                    <div class="curiosities" id="modalCuriosities"></div>
+                    <h3>Opinión de un experto</h3>
+                    <div class="expert" id="modalExpert"></div>
                 </div>
             </div>
-        </section>
-    </main>
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Galería de Arte Clásico. Todas las imágenes son de dominio público.</p>
-            <p>Desarrollado con pasión por el arte.</p>
         </div>
+    </main>
+
+    <footer>
+        <p>© 2025 Galería de Arte Clásico · Todas las imágenes son de dominio público</p>
     </footer>
+
     <script src="data.js"></script>
     <script src="script.js"></script>
 </body>
