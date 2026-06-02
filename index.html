@@ -1,0 +1,56 @@
+<!-- ============= index.html ============= -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dibujo 3D · Guía viva</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="particles-canvas"></div>
+  <main>
+    <header>
+      <h1>✏️ dibujo 3D <span>guía viva</span></h1>
+      <div class="filters" id="filters">
+        <button class="active" data-filter="todas">🌐 Todas</button>
+        <button data-filter="simple">✨ Simples</button>
+        <button data-filter="geometrico">📐 Geométricos</button>
+        <button data-filter="ilusion">🌀 Ilusiones</button>
+        <button data-filter="intermedio">🌟 Intermedios</button>
+        <button data-filter="avanzado">🔥 Avanzados</button>
+      </div>
+    </header>
+
+    <section class="grid" id="grid"></section>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
+      <div class="modal-header">
+        <div class="icon" id="modalIcon">🎨</div>
+        <div class="info">
+          <h2 id="modalTitle">Título</h2>
+          <div class="meta">
+            <span id="modalCategory">Categoría</span>
+            <span id="modalDifficulty">●●○○○</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <h3>📐 pasos precisos</h3>
+        <ol class="step-list" id="stepList"></ol>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-start" id="btnStart">🚀 A dibujar</button>
+        <canvas id="refCanvas" width="300" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
