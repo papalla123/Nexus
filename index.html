@@ -1,41 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galería de Arte Clásico</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galería de Arte Clásico - Obras Maestras</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
 <body>
     <header>
         <div class="logo">🎨</div>
         <nav>
-            <a href="#" class="active">Inicio</a>
+            <a href="#inicio" class="active">Inicio</a>
             <a href="#obras">Obras</a>
+            <a href="#linea-tiempo">Línea del tiempo</a>
+            <a href="#testimonios">Testimonios</a>
             <a href="#contacto">Contacto</a>
         </nav>
+        <div class="menu-toggle">☰</div>
     </header>
-
     <main>
-        <!-- Hero con partículas -->
-        <section class="hero" id="hero">
-            <canvas id="particlesCanvas"></canvas>
+        <!-- HERO -->
+        <section id="inicio" class="hero">
+            <div class="particles" id="particles"></div>
             <div class="hero-content">
-                <h1>Historia del Arte</h1>
-                <p>Las obras maestras que definieron la humanidad</p>
-                <a href="#obras" class="btn" id="exploreBtn">Explorar</a>
+                <h1 class="animate__animated animate__fadeInDown">Historia del Arte</h1>
+                <p class="animate__animated animate__fadeInUp">Las obras maestras que definieron la humanidad</p>
+                <a href="#obras" class="btn animate__animated animate__fadeInUp">Explorar</a>
             </div>
-            <div class="hero-overlay"></div>
         </section>
 
-        <!-- Galería de obras -->
-        <section id="obras" class="gallery">
-            <h2>Obras Maestras</h2>
-            <div class="grid" id="grid"></div>
+        <!-- OBRAS -->
+        <section id="obras" class="gallery section">
+            <div class="container">
+                <h2>Obras Maestras</h2>
+                <p class="section-subtitle">Doce pinturas que cambiaron el mundo</p>
+                <div class="grid" id="grid"></div>
+            </div>
         </section>
 
-        <!-- Modal -->
+        <!-- LÍNEA DEL TIEMPO -->
+        <section id="linea-tiempo" class="timeline section">
+            <div class="container">
+                <h2>Línea del tiempo</h2>
+                <div class="timeline-container" id="timeline"></div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIOS -->
+        <section id="testimonios" class="testimonials section">
+            <div class="container">
+                <h2>Lo que dicen los expertos</h2>
+                <div class="testimonial-grid" id="testimonials"></div>
+            </div>
+        </section>
+
+        <!-- MODAL -->
         <section class="modal" id="modal">
             <div class="modal-content">
                 <span class="close" id="close">&times;</span>
@@ -48,16 +69,19 @@
                         <div class="description" id="modalDescription"></div>
                         <p class="history-title">Historia</p>
                         <div class="history" id="modalHistory"></div>
+                        <p class="history-title">Curiosidades</p>
+                        <div class="curiosities" id="modalCuriosities"></div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
-
     <footer>
-        <p>&copy; 2025 Galería de Arte Clásico</p>
+        <div class="container">
+            <p>&copy; 2025 Galería de Arte Clásico. Todas las imágenes son de dominio público.</p>
+            <p>Desarrollado con pasión por el arte.</p>
+        </div>
     </footer>
-
     <script src="data.js"></script>
     <script src="script.js"></script>
 </body>

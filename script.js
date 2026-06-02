@@ -1,79 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // ---- PARTÍCULAS (fondo hero) ----
-    const canvas = document.getElementById('particlesCanvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    class Particle {
-        constructor() {
-            this.reset();
-        }
-        reset() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 3 + 1;
-            this.speedX = (Math.random() - 0.5) * 0.5;
-            this.speedY = (Math.random() - 0.5) * 0.5;
-            this.opacity = Math.random() * 0.5 + 0.1;
-            this.color = `rgba(212, 175, 55, ${this.opacity})`;
-        }
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-            if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-        }
-        draw() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = this.color;
-            ctx.fill();
-        }
-    }
-
-    function initParticles(count) {
-        particles = [];
-        for (let i = 0; i < count; i++) {
-            particles.push(new Particle());
-        }
-    }
-
-    function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-            p.update();
-            p.draw();
-        });
-        // Conectar partículas cercanas con líneas
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 100) {
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.strokeStyle = `rgba(212, 175, 55, ${0.1 * (1 - dist/100)})`;
-                    ctx.lineWidth = 0.5;
-                    ctx.stroke();
-                }
-            }
-        }
-        requestAnimationFrame(animateParticles);
-    }
-
-    initParticles(100);
-    animateParticles();
-
-    // ---- GALERÍA ----
+    // Elementos del DOM
     const grid = document.getElementById('grid');
     const modal = document.getElementById('modal');
     const close = document.getElementById('close');
@@ -83,13 +9,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalYear = document.getElementById('modalYear');
     const modalDescription = document.getElementById('modalDescription');
     const modalHistory = document.getElementById('modalHistory');
+    const modalCuriosities = document.getElementById('modalCuriosities');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('nav');
+    const header = document.querySelector('header');
 
-    // Renderizar tarjetas
-    paintings.forEach(p => {
+    // ===== PARTÍCULAS =====
+    function createParticles() {
+        const container = document.getElementById('particles');
+        for (let i = 0; i < 100; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 15) + 's';
+            container.appendChild(particle);
+        }
+    }
+    createParticles();
+
+    // ===== RENDERIZAR TARJETAS =====
+    paintings.forEach((p, index) => {
         const card = document.createElement('div');
         card.className = 'card';
+        card.style.animationDelay = index * 0.15 + 's';
         card.innerHTML = `
-            <img src="${p.image}" alt="${p.title}" loading="lazy">
+            <img src="${p.image}" alt="${p.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x500/1a1a2e/d4af37?text=${encodeURIComponent(p.title)}'" />
             <div class="card-info">
                 <h3>${p.title}</h3>
                 <p>${p.author}</p>
@@ -99,22 +45,43 @@ document.addEventListener('DOMContentLoaded', () => {
         grid.appendChild(card);
     });
 
-    // Abrir modal
+    // ===== INTERSECCIÓN PARA ANIMACIONES =====
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card, .timeline-item, .testimonial-card').forEach(el => {
+        observer.observe(el);
+    });
+
+    // ===== MODAL =====
     function openModal(p) {
         modalImage.style.backgroundImage = `url(${p.image})`;
         modalTitle.textContent = p.title;
-        modalAuthor.textContent = p.author;
+        modalAuthor.textContent = `Artista: ${p.author}`;
         modalYear.textContent = p.year;
         modalDescription.textContent = p.description;
         modalHistory.textContent = p.history;
+        modalCuriosities.textContent = p.curiosities;
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+        // Cerrar con tecla Escape
+        document.addEventListener('keydown', handleEscape);
     }
 
-    // Cerrar modal
     function closeModal() {
         modal.classList.remove('active');
         document.body.style.overflow = '';
+        document.removeEventListener('keydown', handleEscape);
+    }
+
+    function handleEscape(e) {
+        if (e.key === 'Escape') closeModal();
     }
 
     close.addEventListener('click', closeModal);
@@ -122,26 +89,62 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === modal) closeModal();
     });
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModal();
+    // ===== LÍNEA DEL TIEMPO =====
+    const timelineContainer = document.getElementById('timeline');
+    timelineData.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'timeline-item';
+        div.style.animationDelay = index * 0.2 + 's';
+        div.innerHTML = `
+            <div class="timeline-content">
+                <h3>${item.title}</h3>
+                <p class="date">${item.year}</p>
+                <p>${item.description}</p>
+            </div>
+        `;
+        timelineContainer.appendChild(div);
+        observer.observe(div);
     });
 
-    // ---- SCROLL SUAVE para el botón "Explorar" ----
-    document.getElementById('exploreBtn').addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = document.querySelector('#obras');
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // ===== TESTIMONIOS =====
+    const testimonialGrid = document.getElementById('testimonials');
+    testimonials.forEach((t, index) => {
+        const card = document.createElement('div');
+        card.className = 'testimonial-card';
+        card.style.animationDelay = index * 0.2 + 's';
+        card.innerHTML = `
+            <p class="quote">"${t.quote}"</p>
+            <p class="author">— ${t.author}</p>
+            <p class="role">${t.role}</p>
+        `;
+        testimonialGrid.appendChild(card);
+        observer.observe(card);
+    });
+
+    // ===== MENÚ HAMBURGUESA =====
+    menuToggle.addEventListener('click', () => {
+        nav.classList.toggle('active');
+    });
+
+    // ===== HEADER SCROLL =====
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
         }
     });
 
-    // ---- NAVEGACIÓN SUAVE para otros enlaces ----
+    // ===== SCROLL SUAVE PARA ENLACES =====
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
-                target.scrollIntoView({ behavior: 'smooth' });
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            if (nav.classList.contains('active')) {
+                nav.classList.remove('active');
             }
         });
     });
